@@ -1,31 +1,74 @@
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { ROUTES } from "../utils/constants";
+import axios from "axios";
+import { Input } from "./ui/Input";
+
+interface LoginformData {
+  email: string;
+  password: string;
+}
+
 export default function LoginForm() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [error, setError] = useState<string | null>();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginformData>();
+
+  const onSubmit = async (data: LoginformData) => {
+    setError(null);
+
+    try {
+      await login(data.email, data.password);
+      navigate(ROUTES.DASHBOARD, { replace: true });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          setError(
+            "Credenciales inválidas. Por favor verifica tu email y contraseña."
+          );
+        } else if (error.response?.status === 400) {
+          setError("Datos de acceso incorrectos.");
+        } else if (!error.response) {
+          setError("No se pudo conectar al servicio. Verifica tu conexión.");
+        } else {
+          setError("Ocurrió un error inesperado. Intenta nuevamente.");
+        }
+      } else {
+        setError("Ocurrió un error inesperado. Intenta nuevamente.");
+      }
+    }
+  };
+
   return (
-    <form className="w-full space-y-6">
-      {/* Campo Correo */}
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">
+      {error && <p className="text-red-500">{error}</p>}
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Correo Electrónico*
         </label>
         <div className="relative">
-          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              />
-            </svg>
-          </span>
-          <input
+          <Input
             type="email"
             placeholder="Ingresar correo"
+            autoComplete="email"
+            icon={<img src="src/assets/icons/email.svg" alt="" />}
+            error={errors.email?.message}
+            {...register("email", {
+              required: "El email es requerido",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Email inválido",
+              },
+            })}
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
           />
         </div>
@@ -37,37 +80,19 @@ export default function LoginForm() {
           Contraseña*
         </label>
         <div className="relative">
-          <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400"></span>
-          <input
+          <Input
             type="password"
             placeholder="Ingresa tu contraseña"
+            autoComplete="current-password"
+            icon={<img src="src/assets/icons/password.svg" alt="" />}
+            showPasswordToggle={true}
+            error={errors.password?.message}
+            {...register("password", {
+              required: "La contraseña es requerida",
+              // NO validar longitud - el password puede venir hasheado
+            })}
             className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
           />
-          <button
-            type="button"
-            className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-              />
-            </svg>
-          </button>
         </div>
       </div>
 
@@ -86,8 +111,9 @@ export default function LoginForm() {
         <button
           type="submit"
           className="w-full bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-md transition-colors hover:bg-gray-400"
+          disabled={isSubmitting}
         >
-          Ingresar
+          {isSubmitting ? "Iniciando sesión" : "Ingresar"}
         </button>
       </div>
     </form>
