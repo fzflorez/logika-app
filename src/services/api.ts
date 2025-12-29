@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { API_AUTH_URL, API_ACTIONS_URL, ROUTES } from '../utils/constants';
-import { storage } from '../utils/storage';
+import axios from "axios";
+import { API_AUTH_URL, API_ACTIONS_URL, ROUTES } from "../utils/constants";
+import { storage } from "../utils/storage";
 
 export const authApi = axios.create({
   baseURL: API_AUTH_URL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -17,7 +17,7 @@ actionsApi.interceptors.request.use(
   (config) => {
     const token = storage.getToken();
     if (token) {
-      config.headers.Authorization = Bearer ${token};
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
