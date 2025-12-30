@@ -20,15 +20,13 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
-    watch, // 1. Agregamos watch para observar los cambios
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<LoginformData>();
 
-  // 2. Observamos los valores de email y password
   const emailValue = watch("email");
   const passwordValue = watch("password");
 
-  // 3. Verificamos si ambos campos tienen contenido
   const isFormFilled = emailValue && passwordValue;
 
   const onSubmit = async (data: LoginformData) => {
@@ -37,12 +35,11 @@ export default function LoginForm() {
       await login(data.email, data.password);
       navigate(ROUTES.DASHBOARD, { replace: true });
     } catch (error) {
-      // ... (tu lógica de errores se mantiene igual)
       if (axios.isAxiosError(error)) {
         setError(
           error.response?.status === 401
             ? "Credenciales inválidas"
-            : "Error de acceso"
+            : "No fue posible acceder a la aplicación"
         );
       }
     }
@@ -50,9 +47,12 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">
-      {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+      {error && (
+        <p className="text-red-500 bg-red-50 py-2 rounded-md text-sm text-center">
+          {error}
+        </p>
+      )}
 
-      {/* Campo Email */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Correo Electrónico*
@@ -72,7 +72,6 @@ export default function LoginForm() {
         />
       </div>
 
-      {/* Campo Contraseña */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Contraseña*
@@ -98,12 +97,12 @@ export default function LoginForm() {
         </a>
       </div>
 
-      {/* 4. Botón Dinámico */}
       <div className="pt-4">
         <Button
           type="submit"
           disabled={isSubmitting}
-          variant="secondary"
+          variant="primary"
+          isLoading={isSubmitting}
           className={`w-full font-semibold py-2 px-4 rounded-md transition-all duration-300 ${
             !isFormFilled && "bg-gray-300 text-gray-600 cursor-not-allowed"
           }`}
