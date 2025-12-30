@@ -45,7 +45,12 @@ export function CreateActionPage() {
   const descriptionValue = watch("description");
   const colorValue = watch("color");
 
-  const isFormFilled = nameValue && descriptionValue && colorValue;
+  const isFormFilled = !!(
+    nameValue &&
+    descriptionValue &&
+    colorValue &&
+    selectedFile
+  );
 
   const onSubmit = async (data: CreateActionFormData) => {
     setError(null);
@@ -92,8 +97,6 @@ export function CreateActionPage() {
     return /^#[0-9A-Fa-f]{6}$/.test(color);
   };
 
-  console.log("success:", success);
-
   return (
     <div className="max-w-2xl mx-auto">
       {/* Header */}
@@ -119,12 +122,6 @@ export function CreateActionPage() {
         </Link>
         <h1 className="text-2xl font-bold text-gray-900">Crear acción</h1>
       </div>
-
-      {error && (
-        <div className="mb-6">
-          <Alert type="error" message={error} onClose={() => setError(null)} />
-        </div>
-      )}
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -166,7 +163,11 @@ export function CreateActionPage() {
           error={fileError || undefined}
           onChange={(file) => {
             setSelectedFile(file);
-            if (file) setFileError(null);
+            if (file) {
+              setFileError(null);
+            } else {
+              setFileError("La imagen es obligatoria");
+            }
           }}
         />
 
@@ -213,6 +214,16 @@ export function CreateActionPage() {
           {success && (
             <div className="mb-3">
               <Alert type="success" message="¡Acción creada exitosamente!" />
+            </div>
+          )}
+
+          {error && (
+            <div className="mb-6">
+              <Alert
+                type="error"
+                message={error}
+                onClose={() => setError(null)}
+              />
             </div>
           )}
 
