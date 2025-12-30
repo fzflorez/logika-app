@@ -89,7 +89,7 @@ export function Pagination({
             disabled={disabled}
             className={`${baseButtonClass} min-w-10 ${
               page === currentPage
-                ? "bg-blue-600 text-white"
+                ? "bg-[#1E1B4D] text-white"
                 : disabled
                 ? "text-gray-300 cursor-not-allowed"
                 : "text-gray-700 hover:bg-gray-100"

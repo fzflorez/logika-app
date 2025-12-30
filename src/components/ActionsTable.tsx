@@ -45,7 +45,7 @@ export function ActionsTable({
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12">
         <div className="flex flex-col items-center justify-center max-w-md mx-auto">
           <Alert type="error" message={error} />
-          <Button onClick={onRetry} variant="secondary" className="mt-4">
+          <Button onClick={onRetry} variant="primary" className="mt-4">
             Reintentar
           </Button>
         </div>
