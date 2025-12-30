@@ -6,7 +6,7 @@ import { Button } from "../ui/Button";
 export function Sidebar() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { logout, user } = useAuth();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -16,7 +16,7 @@ export function Sidebar() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <aside className="fixed left-0 top-20 bottom-0 w-64 bg-white flex flex-col justify-between z-50 border-r border-gray-100 shadow-sm">
+    <aside className="fixed left-0 top-16 bottom-0 w-64 bg-white flex flex-col justify-between z-50 border-r border-gray-100 shadow-sm">
       <div>
         {/* Logo */}
         <div>

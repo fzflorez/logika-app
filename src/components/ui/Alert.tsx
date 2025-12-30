@@ -17,7 +17,7 @@ export function Alert({ type, message, onClose }: AlertProps) {
       className={`flex items-center gap-3 p-4 rounded-lg border ${typeClasses[type]}`}
       role="alert"
     >
-      <p className="flex-1 text-sm">{message}</p>
+      <p className="flex-1 text-sm text-center">{message}</p>
       {onClose && (
         <button
           onClick={onClose}
