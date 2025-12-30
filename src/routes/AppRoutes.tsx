@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { DashboardPage } from "../pages/DashboardPage";
-// import { CreateActionPage } from "../pages/CreateActionPage";
+import { CreateActionPage } from "../pages/CreateActionPage";
 import { ROUTES } from "../utils/constants";
 import PublicRoute from "./PublicRoute";
 import LoginPage from "../pages/LoginPage";
@@ -20,6 +20,15 @@ export function AppRoutes() {
       />
 
       <Route
+        path={"/blog"}
+        element={
+          <PublicRoute>
+            <LoginPage />
+          </PublicRoute>
+        }
+      />
+
+      <Route
         element={
           <PrivateRoute>
             <AppLayout />
@@ -27,7 +36,7 @@ export function AppRoutes() {
         }
       >
         <Route path={ROUTES.DASHBOARD} element={<DashboardPage />} />
-        {/* <Route path={ROUTES.CREATE_ACTION} element={<CreateActionPage />} /> */}
+        <Route path={ROUTES.CREATE_ACTION} element={<CreateActionPage />} />
       </Route>
 
       <Route path="/" element={<Navigate to={ROUTES.DASHBOARD} replace />} />
