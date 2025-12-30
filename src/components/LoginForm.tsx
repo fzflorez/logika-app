@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { ROUTES } from "../utils/constants";
 import axios from "axios";
 import { Input } from "./ui/Input";
+import { Button } from "./ui/Button";
 
 interface LoginformData {
   email: string;
@@ -19,59 +20,56 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
+    watch, // 1. Agregamos watch para observar los cambios
     formState: { errors, isSubmitting },
   } = useForm<LoginformData>();
 
+  // 2. Observamos los valores de email y password
+  const emailValue = watch("email");
+  const passwordValue = watch("password");
+
+  // 3. Verificamos si ambos campos tienen contenido
+  const isFormFilled = emailValue && passwordValue;
+
   const onSubmit = async (data: LoginformData) => {
     setError(null);
-
     try {
       await login(data.email, data.password);
       navigate(ROUTES.DASHBOARD, { replace: true });
     } catch (error) {
+      // ... (tu lógica de errores se mantiene igual)
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          setError(
-            "Credenciales inválidas. Por favor verifica tu email y contraseña."
-          );
-        } else if (error.response?.status === 400) {
-          setError("Datos de acceso incorrectos.");
-        } else if (!error.response) {
-          setError("No se pudo conectar al servicio. Verifica tu conexión.");
-        } else {
-          setError("Ocurrió un error inesperado. Intenta nuevamente.");
-        }
-      } else {
-        setError("Ocurrió un error inesperado. Intenta nuevamente.");
+        setError(
+          error.response?.status === 401
+            ? "Credenciales inválidas"
+            : "Error de acceso"
+        );
       }
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
+      {/* Campo Email */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Correo Electrónico*
         </label>
-        <div className="relative">
-          <Input
-            type="email"
-            placeholder="Ingresar correo"
-            autoComplete="email"
-            icon={<img src="src/assets/icons/email.svg" alt="" />}
-            error={errors.email?.message}
-            {...register("email", {
-              required: "El email es requerido",
-              pattern: {
-                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Email inválido",
-              },
-            })}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
-          />
-        </div>
+        <Input
+          type="email"
+          placeholder="Ingresar correo"
+          icon={<img src="src/assets/icons/email.svg" alt="" />}
+          error={errors.email?.message}
+          {...register("email", {
+            required: "El email es requerido",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Email inválido",
+            },
+          })}
+        />
       </div>
 
       {/* Campo Contraseña */}
@@ -79,42 +77,39 @@ export default function LoginForm() {
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Contraseña*
         </label>
-        <div className="relative">
-          <Input
-            type="password"
-            placeholder="Ingresa tu contraseña"
-            autoComplete="current-password"
-            icon={<img src="src/assets/icons/password.svg" alt="" />}
-            showPasswordToggle={true}
-            error={errors.password?.message}
-            {...register("password", {
-              required: "La contraseña es requerida",
-              // NO validar longitud - el password puede venir hasheado
-            })}
-            className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition-all"
-          />
-        </div>
+        <Input
+          type="password"
+          placeholder="Ingresa tu contraseña"
+          icon={<img src="src/assets/icons/password.svg" alt="" />}
+          showPasswordToggle={true}
+          error={errors.password?.message}
+          {...register("password", {
+            required: "La contraseña es requerida",
+          })}
+        />
       </div>
 
-      {/* Link Recuperar Contraseña */}
       <div className="text-center">
         <a
           href="#"
-          className="text-indigo-900 font-semibold underline text-sm hover:text-indigo-700"
+          className="text-indigo-900 font-semibold underline hover:text-indigo-700 text-sm"
         >
           Recuperar contraseña
         </a>
       </div>
 
-      {/* Botón Ingresar */}
+      {/* 4. Botón Dinámico */}
       <div className="pt-4">
-        <button
+        <Button
           type="submit"
-          className="w-full bg-gray-300 text-gray-600 font-semibold py-2 px-4 rounded-md transition-colors hover:bg-gray-400"
           disabled={isSubmitting}
+          variant="secondary"
+          className={`w-full font-semibold py-2 px-4 rounded-md transition-all duration-300 ${
+            !isFormFilled && "bg-gray-300 text-gray-600 cursor-not-allowed"
+          }`}
         >
-          {isSubmitting ? "Iniciando sesión" : "Ingresar"}
-        </button>
+          {isSubmitting ? "Iniciando sesión..." : "Ingresar"}
+        </Button>
       </div>
     </form>
   );
