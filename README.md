@@ -15,13 +15,13 @@ React web application for action management with JWT authentication, paginated l
 ## Installation
 
 ```bash
-npm install
+pnpm install
 ```
 
 ## Running
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 The application will be available at `http://localhost:5173`
