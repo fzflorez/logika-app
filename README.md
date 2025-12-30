@@ -92,8 +92,8 @@ The JWT token is stored in localStorage to persist between sessions. Expiration 
 ## Available Scripts
 
 ```bash
-npm run dev
-npm run build
-npm run preview
-npm run lint
+pnpm dev
+pnpm build
+pnpm preview
+pnpm lint
 ```
