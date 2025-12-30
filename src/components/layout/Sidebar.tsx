@@ -64,7 +64,7 @@ export function Sidebar() {
         <Button
           onClick={handleLogout}
           variant="ghost"
-          className="w-full flex items-center gap-2 hover:bg-slate-800 hover:text-white rounded-lg transition-colors"
+          className="w-full flex items-center gap-2 hover:bg-slate-800 hover:text-white cursor-pointer rounded-lg transition-colors"
         >
           <svg
             className="w-5 h-5"

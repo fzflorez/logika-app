@@ -27,7 +27,7 @@ export default function LoginForm() {
   const emailValue = watch("email");
   const passwordValue = watch("password");
 
-  const isFormFilled = emailValue && passwordValue;
+  const isFormFilled = !!(emailValue && passwordValue);
 
   const onSubmit = async (data: LoginformData) => {
     setError(null);
@@ -100,11 +100,13 @@ export default function LoginForm() {
       <div className="pt-4">
         <Button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !isFormFilled}
           variant="primary"
           isLoading={isSubmitting}
           className={`w-full font-semibold py-2 px-4 rounded-md transition-all duration-300 ${
-            !isFormFilled && "bg-gray-300 text-gray-600 cursor-not-allowed"
+            !isFormFilled
+              ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+              : "cursor-pointer"
           }`}
         >
           {isSubmitting ? "Iniciando sesión..." : "Ingresar"}

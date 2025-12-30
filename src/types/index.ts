@@ -1,4 +1,4 @@
-// AUTH TYPES
+// Auth types
 export interface LoginRequest {
   username: string;
   password: string;
@@ -35,7 +35,7 @@ export interface AuthContextValue extends AuthState {
   logout: () => void;
 }
 
-// ACTIONS TYPES
+// Actions types
 
 export interface Action {
   id: string;
@@ -75,7 +75,7 @@ export interface ActionFormData {
   icon: FileList;
 }
 
-// API ERROR TYPES
+// API Error type
 
 export interface ApiError {
   message: string;

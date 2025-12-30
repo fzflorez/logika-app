@@ -30,7 +30,7 @@ export function Button({
       className={`
        px-4 py-2 rounded-md font-medium transition-colors
        disabled:opacity-50 disabled:cursor-not-allowed
-       flex items-center justify-center gap-2 cursor-pointer
+       flex items-center justify-center gap-2
        ${variantClasses[variant]}
        ${fullWidth ? "w-full" : ""}
        ${className}

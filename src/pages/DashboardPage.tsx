@@ -15,7 +15,9 @@ export function DashboardPage() {
           <h1 className="text-xl font-bold text-[#1E1B4D]">Acciones</h1>
         </div>
         <Link to={ROUTES.CREATE_ACTION}>
-          <Button variant="primary">Nueva Acción</Button>
+          <Button variant="primary" className="cursor-pointer">
+            Nueva Acción
+          </Button>
         </Link>
       </div>
 

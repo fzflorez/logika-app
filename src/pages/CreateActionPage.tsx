@@ -56,7 +56,7 @@ export function CreateActionPage() {
     setError(null);
     setFileError(null);
 
-    // Validar file
+    // Validate file
     if (!selectedFile) {
       setFileError("La imagen es obligatoria");
       return;
@@ -166,7 +166,7 @@ export function CreateActionPage() {
             if (file) {
               setFileError(null);
             } else {
-              setFileError("La imagen es obligatoria");
+              setFileError("El logo es obligatorio");
             }
           }}
         />
@@ -242,11 +242,13 @@ export function CreateActionPage() {
             <Button
               type="submit"
               isLoading={isSubmitting}
-              disabled={isSubmitting || success}
+              disabled={isSubmitting || success || !isFormFilled}
               fullWidth
               variant="primary"
               className={`flex-1 ${
-                !isFormFilled && "bg-gray-300 text-gray-600 cursor-not-allowed"
+                !isFormFilled
+                  ? "bg-gray-300 text-gray-600 cursor-not-allowed"
+                  : "cursor-pointer"
               }`}
             >
               {isSubmitting ? "Creando..." : "Crear"}
