@@ -22,7 +22,7 @@ export default function LoginForm() {
     handleSubmit,
     watch,
     formState: { errors, isSubmitting },
-  } = useForm<LoginformData>();
+  } = useForm<LoginformData>({ mode: "onChange" });
 
   const emailValue = watch("email");
   const passwordValue = watch("password");

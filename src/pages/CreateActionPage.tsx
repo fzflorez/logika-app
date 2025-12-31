@@ -33,6 +33,7 @@ export function CreateActionPage() {
     watch,
     formState: { errors, isSubmitting },
   } = useForm<CreateActionFormData>({
+    mode: "onChange",
     defaultValues: {
       name: "",
       description: "",
