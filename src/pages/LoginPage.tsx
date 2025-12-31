@@ -2,7 +2,7 @@ import LoginForm from "../components/LoginForm";
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50 bg-[url('/src/assets/background.svg')] bg-cover bg-center px-4">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50 bg-[url('/background.svg')] bg-cover bg-center px-4">
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md flex flex-col items-center">
         <div className="mb-8">
           <img src="/logo.svg" alt="be kind network" className="h-16 w-auto" />
