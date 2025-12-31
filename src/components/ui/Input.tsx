@@ -4,8 +4,8 @@ import {
   type InputHTMLAttributes,
   type ReactNode,
 } from "react";
-import { EyeIcon } from "../../assets/icons/eyeIcon";
 import { EyeOffIcon } from "../../assets/icons/eyeOffIcon";
+import { EyeIcon } from "../../assets/icons/eyeIcon";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;

@@ -12,7 +12,11 @@ export function AppLayout() {
       <header className="fixed z-20 bg-[#1E1B4D] w-full border-b border-gray-200 px-9 py-4">
         <div className="flex items-center justify-between">
           <div>
-            <img src="src/assets/logo-white.svg" alt="" className="w-full" />
+            <img
+              src="/logo-white.svg"
+              alt="Logo bekind white"
+              className="w-full"
+            />
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3">

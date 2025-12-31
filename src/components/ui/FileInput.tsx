@@ -93,7 +93,7 @@ export const FileInput = forwardRef<HTMLInputElement, FileInputProps>(
 
           {/* Ícono de upload */}
           <img
-            src="/src/assets/icons/arrow.svg"
+            src="/icons/arrow.svg"
             alt="Icono de carga"
             className="h-4 w-3"
           />

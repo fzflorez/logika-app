@@ -60,7 +60,7 @@ export default function LoginForm() {
         <Input
           type="email"
           placeholder="Ingresar correo"
-          icon={<img src="src/assets/icons/email.svg" alt="" />}
+          icon={<img src="/icons/email.svg" alt="Icon email" />}
           error={errors.email?.message}
           {...register("email", {
             required: "El email es requerido",
@@ -79,7 +79,7 @@ export default function LoginForm() {
         <Input
           type="password"
           placeholder="Ingresa tu contraseña"
-          icon={<img src="src/assets/icons/password.svg" alt="" />}
+          icon={<img src="icons/password.svg" alt="Icon password" />}
           showPasswordToggle={true}
           error={errors.password?.message}
           {...register("password", {

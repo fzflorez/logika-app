@@ -22,7 +22,7 @@ export function Sidebar() {
         <div>
           <Link to={ROUTES.DASHBOARD} className="flex items-center gap-3">
             <div className="w-full h-36 flex items-center justify-center bg-gray-50 bg-[url('/src/assets/background-2.svg')] bg-cover bg-center">
-              <img src="/src/assets/logo.svg" alt="" className="w-44" />
+              <img src="/logo.svg" alt="Logo bekind" className="w-44" />
             </div>
           </Link>
         </div>
